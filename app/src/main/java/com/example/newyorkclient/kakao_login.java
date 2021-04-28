@@ -1,8 +1,12 @@
 package com.example.newyorkclient;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.widget.Button;
 
@@ -22,7 +26,6 @@ public class kakao_login extends AppCompatActivity {
 
     Session session;
     KakaoCallback kakao_call_back = new KakaoCallback();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

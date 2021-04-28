@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,8 @@ public class Lobby extends AppCompatActivity {
     String RealNickName;
     int codenumber;
 
+    Socket_service socket_service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,12 @@ public class Lobby extends AppCompatActivity {
         Intent intent = getIntent();
         N = findViewById(R.id.Nick);
         Nick = findViewById(R.id.NickName);
+
+        try {
+            socket_service = GlobalApplication.getSocket_service();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         N.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +98,7 @@ public class Lobby extends AppCompatActivity {
         making.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(Lobby.this, MainActivity.class);
+                Intent intent2 = new Intent(Lobby.this, Chat.class);
                 intent2.putExtra("nick", RealNickName);
                 intent2.putExtra("user_id", player_id);
                 intent2.putExtra("thumb_nail", thumb_nail);

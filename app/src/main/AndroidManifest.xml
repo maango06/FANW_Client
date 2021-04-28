@@ -12,13 +12,15 @@
         android:roundIcon="@mipmap/fake_artist_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewYorkClient">
-        <activity android:name=".Lobby"></activity>
+        <service android:name=".Socket_service" />
+
+        <activity android:name=".Lobby" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".Chat" />
         <activity android:name=".kakao_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

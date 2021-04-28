@@ -1,44 +1,31 @@
 package com.example.newyorkclient;
 
-import android.content.Context;
-import android.widget.Button;
-import android.widget.EditText;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class send_thread extends Thread{
-    Socket socket;
-    BufferedWriter writer;
     String msg;
+    BufferedWriter writer;
+    static Lock lock = new ReentrantLock();
 
-    send_thread(Socket _socket, String _msg) {
-        this.socket = _socket;
+    send_thread(BufferedWriter _writer, String _msg) {
         this.msg = _msg;
-
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "EUC-KR"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.writer = _writer;
     }
 
     @Override
     public void run() {
-        System.out.println("sending...");
-
+        lock.lock();
         try {
             writer.write(msg);
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
-        System.out.println("sending finish");
     }
-
-
-
 }
