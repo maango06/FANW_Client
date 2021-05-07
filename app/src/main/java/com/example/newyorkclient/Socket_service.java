@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,8 +11,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Socket_service extends Service {
 
@@ -22,7 +21,7 @@ public class Socket_service extends Service {
     IBinder mBinder = new MyBinder();
     BufferedWriter writer;
     BufferedReader reader;
-    queue_manager str_q = new queue_manager();
+    Queue<String> que = new LinkedList<>();
 
     class MyBinder extends Binder {
         Socket_service getService() {
@@ -38,9 +37,23 @@ public class Socket_service extends Service {
                     socket = new Socket(ip, 8989);
                     writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "EUC-KR"));
                     reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "EUC_KR"));
-                    new read_thread(reader, str_q).start();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        String line = reader.readLine();
+                        if(line == null)
+                            break;
+                        que.add(line);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();
@@ -55,9 +68,7 @@ public class Socket_service extends Service {
         new send_thread(writer, _msg).start();
     }
 
-    Socket getSocket() {
-        return socket;
-    }
+    Queue<String> getQue() { return this.que; }
 
     @Override
     public void onCreate() {

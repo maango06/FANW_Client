@@ -69,6 +69,7 @@ public class kakao_login extends AppCompatActivity {
                     Profile profile = kakaoAccount.getProfile();
                     Intent intent = new Intent(getApplicationContext(), Lobby.class);
                     intent.putExtra("name", profile.getNickname());
+                    Log.v("name", profile.getNickname());
                     intent.putExtra("user_id", Long.toString(result.getId()));
                     System.out.println(result.getId());
                     intent.putExtra("thumb_nail", profile.getThumbnailImageUrl());

@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,11 +27,15 @@ public class Lobby extends AppCompatActivity {
     int codenumber;
 
     Socket_service socket_service;
+    Lobby_thread lobby_thread = null;
+    Lobby_handler handler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+
+        handler = new Lobby_handler();
 
         Intent intent = getIntent();
         N = findViewById(R.id.Nick);
@@ -41,6 +46,9 @@ public class Lobby extends AppCompatActivity {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+        lobby_thread = new Lobby_thread(socket_service, handler);
+        lobby_thread.start();
 
         N.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,13 +106,33 @@ public class Lobby extends AppCompatActivity {
         making.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(Lobby.this, Chat.class);
-                intent2.putExtra("nick", RealNickName);
-                intent2.putExtra("user_id", player_id);
-                intent2.putExtra("thumb_nail", thumb_nail);
-
-                startActivity(intent2);
+                socket_service.Send("login/" + player_id + "/" + nick_name);
             }
         });
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lobby_thread.set_stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lobby_thread = new Lobby_thread(socket_service, handler);
+    }
+
+    class Lobby_handler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            String line = msg.getData().getString("value");
+            String[] info = line.split("/");
+            switch(info[0]) {
+                case "room_code":
+
+            }
+        }
+    }
+
 }
