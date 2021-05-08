@@ -187,6 +187,7 @@
         android:layout_width="140dp"
         android:layout_height="80dp"
         android:background="#CF3333"
+        android:gravity="center"
         android:text="시작하기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -22,19 +23,21 @@ public class MainGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_game);
         view = new MyPaintView(this);
 
-        LinearLayout container = findViewById(R.id.container);
+        LinearLayout container = (LinearLayout)findViewById(R.id.container);
         Resources res = getResources();
 
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params;
+        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         container.addView(view, params);
 
 
         Button btn=findViewById(R.id.colorPickerButton);
         Button btn2=findViewById(R.id.thickPickerButton);
+        Button btn3 = findViewById(R.id.clear);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +50,12 @@ public class MainGame extends AppCompatActivity {
                 show();
             }
         });
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear();
+            }
+        });
     }
 
     private void show() {
@@ -56,7 +65,7 @@ public class MainGame extends AppCompatActivity {
 
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("AlertDialog Title");
-        builder.setMessage("굵기 입력");
+        builder.setMessage("굵기 입력(초기값은 5입니다)");
         builder.setView(editText);
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
@@ -89,6 +98,12 @@ public class MainGame extends AppCompatActivity {
             }
         });
         colorPicker.show();
+    }
+
+    private void clear(){
+        int Eraser = Color.WHITE;
+        view.setColor(Eraser);
+        view.setStrokeWidth(100);
     }
 
 }

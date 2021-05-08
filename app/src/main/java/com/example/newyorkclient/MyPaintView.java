@@ -51,7 +51,7 @@ public class MyPaintView extends View {
 
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(3.0F);
+        mPaint.setStrokeWidth(5);
 
         this.lastX = -1;
         this.lastY = -1;
