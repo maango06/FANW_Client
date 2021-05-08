@@ -15,6 +15,7 @@
         <service android:name=".Socket_service" />
 
         <activity android:name=".Lobby" />
+        <activity android:name=".MadeRoom"></activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
