@@ -2,6 +2,7 @@ package com.example.newyorkclient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,13 +34,21 @@ public class MadeRoom extends AppCompatActivity {
         cancel = findViewById(R.id.cancel);
         start = findViewById(R.id.start);
 
-        cancel.setEnabled(false);
-        start.setEnabled(false);
+        //cancel.setEnabled(false);
+        //start.setEnabled(false);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MadeRoom.super.onBackPressed();
+            }
+        });
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
+                startActivity(intent3);
             }
         });
 

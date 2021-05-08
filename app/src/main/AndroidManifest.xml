@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:name=".GlobalApplication"
         android:allowBackup="true"
@@ -12,14 +13,14 @@
         android:roundIcon="@mipmap/fake_artist_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewYorkClient">
-        <activity android:name=".MadeRoom"></activity>
+        <activity android:name=".MadeRoom" />
         <activity android:name=".Lobby" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainGame" />
         <activity android:name=".kakao_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

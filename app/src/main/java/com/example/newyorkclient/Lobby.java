@@ -88,7 +88,7 @@ public class Lobby extends AppCompatActivity {
         making.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(Lobby.this, MainActivity.class);
+                Intent intent2 = new Intent(Lobby.this, MadeRoom.class);
                 intent2.putExtra("nick", RealNickName);
                 intent2.putExtra("user_id", player_id);
                 intent2.putExtra("thumb_nail", thumb_nail);

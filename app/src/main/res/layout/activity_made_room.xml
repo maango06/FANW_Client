@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MadeRoom">
 
-
     <TextView
         android:id="@+id/Codename"
         android:layout_width="wrap_content"
@@ -99,44 +98,43 @@
 
     <ImageView
         android:id="@+id/image1"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="96dp"
+        android:layout_height="94dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.069"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_bias="0.158"
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <ImageView
         android:id="@+id/image2"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="95dp"
+        android:layout_height="92dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_bias="0.161"
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <ImageView
         android:id="@+id/image3"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="108dp"
+        android:layout_height="91dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.943"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_bias="0.175"
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <ImageView
         android:id="@+id/image4"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="98dp"
+        android:layout_height="91dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -147,8 +145,8 @@
 
     <ImageView
         android:id="@+id/image5"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="99dp"
+        android:layout_height="89dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
@@ -159,14 +157,14 @@
 
     <ImageView
         android:id="@+id/image6"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="109dp"
+        android:layout_height="86dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.446"
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <Button
@@ -199,8 +197,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
+        android:layout_width="194dp"
+        android:layout_height="198dp"
         android:background="#F5F2DA"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -209,27 +207,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9">
+
         <TextView
+            android:id="@+id/chat_log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/chat_log"
-            android:layout_weight="40"/>
+            android:layout_weight="40" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/sending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="7"/>
+                android:ems="7" />
+
             <Button
                 android:id="@+id/sending_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="전송"/>
+                android:text="전송" />
         </LinearLayout>
 
     </LinearLayout>
