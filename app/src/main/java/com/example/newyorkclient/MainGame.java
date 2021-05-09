@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -19,11 +20,73 @@ public class MainGame extends AppCompatActivity {
 
     MyPaintView view;
     int tColor,n=0;
+    String topic; // 최종 주제
+    TextView who;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+        who = findViewById(R.id.who);
+
+        //주제 선정(랜덤으로 한 명한테 이 기능 부여) 및 라이어 선정
+        final int[] selectedTopic = {0};
+        final String[] topics = new String[]{"동물","장소","직업","먹을 것","탈 것","감정"};
+        AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
+        ad.setIcon(R.mipmap.fake_artist);
+        ad.setTitle("주제 선정").setSingleChoiceItems(topics, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                selectedTopic[0] = which;
+            }
+        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                topic =  topics[selectedTopic[0]];
+                //아래 if 조건 안에 라이어 조건 집어 넣기
+                if(true){
+                    AlertDialog.Builder choose = new AlertDialog.Builder(MainGame.this);
+                    choose.setIcon(R.mipmap.fake_artist);
+                    choose.setTitle("당신은 예술가 입니다!");
+                    choose.setMessage("\t\t\t\t\t\t\t\t\t\t\t\t\t\t주제: "+ topic+"\n"+"\t\t\t\t\t\t\t\t\t\t\t\t제시어: "+ "answer");
+                    choose.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    choose.show();
+                }
+                else{
+                    AlertDialog.Builder choose = new AlertDialog.Builder(MainGame.this);
+                    choose.setIcon(R.mipmap.fake_artist);
+                    choose.setTitle("당신은 가짜 예술가입니다!");
+                    choose.setMessage("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t주제: "+ topic);
+
+                    choose.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    choose.show();
+                }
+            }
+        });
+
+        ad.create();
+        ad.show();
+        // 여기까지
+
+
+
+
+
+
+
+
+
+
+        //아래 코드들은 전부 그림 그리기 관련
         view = new MyPaintView(this);
 
         LinearLayout container = (LinearLayout)findViewById(R.id.container);
@@ -56,6 +119,7 @@ public class MainGame extends AppCompatActivity {
                 clear();
             }
         });
+
     }
 
     private void show() {

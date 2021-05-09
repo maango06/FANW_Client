@@ -41,7 +41,7 @@ public class MadeRoom extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CountDownTimer(5000, 1000) {
+                new CountDownTimer(4999, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         cancel.setEnabled(true);
