@@ -37,6 +37,13 @@
             android:text="~~가 그리는 중"/>
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/timeout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="30"/>
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"

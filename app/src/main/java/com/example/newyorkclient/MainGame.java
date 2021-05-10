@@ -3,14 +3,18 @@ package com.example.newyorkclient;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +26,14 @@ public class MainGame extends AppCompatActivity {
     int tColor,n=0;
     String topic; // 최종 주제
     TextView who;
+    ProgressBar timeout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
         who = findViewById(R.id.who);
+        timeout = findViewById(R.id.timeout);
 
         //주제 선정(랜덤으로 한 명한테 이 기능 부여) 및 라이어 선정
         final int[] selectedTopic = {0};
@@ -77,12 +83,24 @@ public class MainGame extends AppCompatActivity {
         ad.show();
         // 여기까지
 
+        //30 초간 터치 가능하게 하는 기능 -->> 돌아가면서 그림 그릴 때 사용
+        new CountDownTimer(29999, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String a = String.valueOf(30-millisUntilFinished/1000);
+                int countdown = Integer.parseInt(a);
+                timeout.setProgress(countdown);
+            }
+            @Override
+            public void onFinish() {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
+        }.start();
 
-
-
-
-
-
+        //화면 막기
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        //화면 풀기
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
 
@@ -96,6 +114,7 @@ public class MainGame extends AppCompatActivity {
         LinearLayout.LayoutParams params;
         params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         container.addView(view, params);
+
 
 
         Button btn=findViewById(R.id.colorPickerButton);
