@@ -27,14 +27,14 @@ public class Lobby_thread extends Thread{
 
     @Override
     public void run() {
-        Queue<String> que = socket_service.getQue();
+        socket_queue que = socket_service.getQue();
         String line = null;
         while(true) {
             if(stop) {
                 stop = false;
                 break;
             }
-            line = que.poll();
+            line = que.pop();
             if(line == null) {
                 Thread.yield();
                 continue;

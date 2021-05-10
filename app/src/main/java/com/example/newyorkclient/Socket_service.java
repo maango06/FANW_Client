@@ -21,7 +21,7 @@ public class Socket_service extends Service {
     IBinder mBinder = new MyBinder();
     BufferedWriter writer;
     BufferedReader reader;
-    Queue<String> que = new LinkedList<>();
+    socket_queue que = new socket_queue();
 
     class MyBinder extends Binder {
         Socket_service getService() {
@@ -68,7 +68,7 @@ public class Socket_service extends Service {
         new send_thread(writer, _msg).start();
     }
 
-    Queue<String> getQue() { return this.que; }
+    socket_queue getQue() { return this.que; }
 
     @Override
     public void onCreate() {
