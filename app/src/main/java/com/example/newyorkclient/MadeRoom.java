@@ -3,7 +3,6 @@ package com.example.newyorkclient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,10 +37,30 @@ public class MadeRoom extends AppCompatActivity {
         cancel.setEnabled(false);
         start.setEnabled(false);
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MadeRoom.super.onBackPressed();
+                new CountDownTimer(4999, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        cancel.setEnabled(true);
+                        String a = String.valueOf(millisUntilFinished/1000);
+                        start.setText(a);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cancel();
+                                start.setText("시작하기");
+                                cancel.setEnabled(false);
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFinish() {
+                        Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
+                        startActivity(intent3);
+                    }
+                }.start();
             }
         });
 

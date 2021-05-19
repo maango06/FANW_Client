@@ -88,7 +88,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
-                        new send_thread("enter_room/" + result).start();
+                        codenumber = Integer.parseInt(result);
                         dialog.dismiss();
                     }
                 });
@@ -152,5 +152,4 @@ public class Lobby extends AppCompatActivity {
             }
         }
     }
-
 }

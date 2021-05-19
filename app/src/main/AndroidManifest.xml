@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/fake_artist_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewYorkClient">
-
+        <activity android:name=".MainGame"></activity>
+        <activity android:name=".MadeRoom" />
         <activity android:name=".Lobby" />
-        <activity android:name=".MadeRoom"></activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
