@@ -88,7 +88,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
-                        codenumber = Integer.parseInt(result);
+                        new send_thread("enter_room/" + result).start();
                         dialog.dismiss();
                     }
                 });
@@ -126,7 +126,6 @@ public class Lobby extends AppCompatActivity {
                     Intent intent = new Intent(Lobby.this, MadeRoom.class);
                     intent.putExtra("master", true);
                     intent.putExtra("room_code", info[1]);
-                    Log.v("make_room", "startActivity");
                     startActivity(intent);
                     break;
                 case "enter_room":
@@ -152,4 +151,5 @@ public class Lobby extends AppCompatActivity {
             }
         }
     }
+
 }

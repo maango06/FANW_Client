@@ -3,6 +3,7 @@ package com.example.newyorkclient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -22,9 +23,11 @@ public class MadeRoom extends AppCompatActivity {
     Button cancel;
     Button start;
 
+    boolean master = false;
+    String room_code = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v("oncreate", "yes");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made_room);
         player1 = findViewById(R.id.player1);
@@ -39,6 +42,12 @@ public class MadeRoom extends AppCompatActivity {
 
         cancel.setEnabled(false);
         start.setEnabled(false);
+
+        Intent now_intent = getIntent();
+        room_code = now_intent.getStringExtra("room_code");
+        master = now_intent.getBooleanExtra("master", false);
+
+        codename.setText(room_code);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
