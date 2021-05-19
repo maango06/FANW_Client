@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,13 +16,12 @@ import android.widget.TextView;
 public class Lobby extends AppCompatActivity {
     Button enter;
     Button making;
-    Button N;
-    TextView Nick;
+    Button nickname_button;
+    TextView nickname_textview;
 
     String nick_name;
     String player_id;
     String thumb_nail;
-    String RealNickName;
     Lobby_thread lobby_thread = null;
     Lobby_handler handler = null;
 
@@ -36,13 +33,10 @@ public class Lobby extends AppCompatActivity {
         handler = new Lobby_handler();
 
         Intent intent = getIntent();
-        N = findViewById(R.id.Nick);
-        Nick = findViewById(R.id.NickName);
+        nickname_button = findViewById(R.id.Nick);
+        nickname_textview = findViewById(R.id.NickName);
 
-        lobby_thread = new Lobby_thread(handler);
-        lobby_thread.start();
-
-        N.setOnClickListener(new View.OnClickListener() {
+        nickname_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder ad = new AlertDialog.Builder(Lobby.this);
@@ -57,8 +51,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
-                        RealNickName = result;
-                        Nick.setText(result);
+                        new send_thread("nickname/" + result).start();
                         dialog.dismiss();
                     }
                 });
@@ -114,6 +107,7 @@ public class Lobby extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         lobby_thread = new Lobby_thread(handler);
+        lobby_thread.start();
     }
 
     class Lobby_handler extends Handler {
@@ -148,6 +142,9 @@ public class Lobby extends AppCompatActivity {
                         ad.show();
                     }
                     break;
+                case "nickname":
+                    nick_name = info[1];
+                    nickname_textview.setText(nick_name);
             }
         }
     }

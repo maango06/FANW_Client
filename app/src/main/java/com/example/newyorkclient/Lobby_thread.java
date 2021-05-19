@@ -50,6 +50,18 @@ public class Lobby_thread extends Thread{
                         handler.sendMessage(msg);
                     }
                     break;
+                case "nickname":
+                    if(info[1].equals("E")) {
+                        Log.e("nickname", "fail set nickname");
+                    } else {
+                        Message msg = handler.obtainMessage();
+                        Bundle bundle = new Bundle();
+                        String str = info[0] + "/" + info[2];
+                        bundle.putString("value", str);
+                        msg.setData(bundle);
+                        handler.sendMessage(msg);
+                    }
+                    break;
                 case "enter_room":
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
