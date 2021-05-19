@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +25,6 @@ public class Lobby extends AppCompatActivity {
     String player_id;
     String thumb_nail;
     String RealNickName;
-    int codenumber;
-
-    Socket_service socket_service;
     Lobby_thread lobby_thread = null;
     Lobby_handler handler = null;
 
@@ -41,13 +39,7 @@ public class Lobby extends AppCompatActivity {
         N = findViewById(R.id.Nick);
         Nick = findViewById(R.id.NickName);
 
-        try {
-            socket_service = GlobalApplication.getSocket_service();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        lobby_thread = new Lobby_thread(socket_service, handler);
+        lobby_thread = new Lobby_thread(handler);
         lobby_thread.start();
 
         N.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +69,7 @@ public class Lobby extends AppCompatActivity {
         nick_name = intent.getExtras().getString("name");
         player_id = intent.getExtras().getString("user_id");
         thumb_nail = intent.getExtras().getString("thumb_nail");
+        new send_thread("login/" + player_id + "/" + nick_name).start();
 
         enter = findViewById(R.id.Enter);
         making = findViewById(R.id.RoomMaking);
@@ -95,7 +88,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
-                        codenumber = Integer.parseInt(result);
+                        new send_thread("enter_room/" + result).start();
                         dialog.dismiss();
                     }
                 });
@@ -106,7 +99,7 @@ public class Lobby extends AppCompatActivity {
         making.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socket_service.Send("login/" + player_id + "/" + nick_name);
+                new send_thread("make_room").start();
             }
         });
     }
@@ -120,7 +113,7 @@ public class Lobby extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        lobby_thread = new Lobby_thread(socket_service, handler);
+        lobby_thread = new Lobby_thread(handler);
     }
 
     class Lobby_handler extends Handler {
@@ -129,8 +122,33 @@ public class Lobby extends AppCompatActivity {
             String line = msg.getData().getString("value");
             String[] info = line.split("/");
             switch(info[0]) {
-                case "room_code":
-
+                case "make_room":
+                    Intent intent = new Intent(Lobby.this, MadeRoom.class);
+                    intent.putExtra("master", true);
+                    intent.putExtra("room_code", info[1]);
+                    Log.v("make_room", "startActivity");
+                    startActivity(intent);
+                    break;
+                case "enter_room":
+                    if(info[1] == "S") {
+                        Intent intent2 = new Intent(Lobby.this, MadeRoom.class);
+                        intent2.putExtra("master", false);
+                        intent2.putExtra("room_code", info[2]);
+                        startActivity(intent2);
+                    }
+                    else {
+                        AlertDialog.Builder ad = new AlertDialog.Builder(Lobby.this);
+                        ad.setIcon(R.mipmap.fake_artist);
+                        ad.setTitle("에러");
+                        ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        ad.show();
+                    }
+                    break;
             }
         }
     }

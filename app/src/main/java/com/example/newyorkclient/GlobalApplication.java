@@ -1,12 +1,8 @@
 package com.example.newyorkclient;
 
 import android.app.Application;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.os.RemoteException;
+import android.util.Log;
 
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
@@ -15,26 +11,14 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 
+import java.io.IOException;
+import java.net.Socket;
+
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
 
-    static Socket_service socket_service;
-    ServiceConnection conn = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            //서비스와 연결되었을 때 호출되는 메서드
-            Socket_service.MyBinder mb = (Socket_service.MyBinder) service;
-            socket_service = mb.getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    };
-
-    static Socket_service getSocket_service() throws RemoteException {
-        return socket_service;
-    }
+    private static socket_queue que = new socket_queue();
+    private static Socket socket;
 
     public static GlobalApplication getGlobalApplicationContext() {
         if (instance == null) {
@@ -44,6 +28,10 @@ public class GlobalApplication extends Application {
         return instance;
     }
 
+    socket_queue getQue() { return que; }
+
+    Socket getSocket() { return socket; }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -52,10 +40,18 @@ public class GlobalApplication extends Application {
         // Kakao Sdk 초기화
         KakaoSDK.init(new KakaoSDKAdapter());
 
-        Context context = getApplicationContext();
-        Intent service_intent = new Intent(context, Socket_service.class);
-        context.bindService(service_intent, conn, Context.BIND_AUTO_CREATE);
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket("218.146.163.216", 8989);
+                    new read_thread().start();
+                    Log.v("global", "thread finish");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override

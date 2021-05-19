@@ -11,29 +11,23 @@ import java.util.Queue;
 
 public class Lobby_thread extends Thread{
 
-    Socket_service socket_service;
     Handler handler = null;
     boolean stop = false;
 
-    Lobby_thread(Socket_service _socket_service, Handler _handler) {
-        this.socket_service = _socket_service;
+    Lobby_thread(Handler _handler) {
         this.handler = _handler;
     }
 
     public void set_stop() {
         this.stop = true;
-        while(stop) { }
     }
 
     @Override
     public void run() {
-        socket_queue que = socket_service.getQue();
+        socket_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
         String line = null;
         while(true) {
-            if(stop) {
-                stop = false;
-                break;
-            }
+            if(this.stop) break;
             line = que.pop();
             if(line == null) {
                 Thread.yield();
@@ -50,11 +44,19 @@ public class Lobby_thread extends Thread{
                     } else {
                         Message msg = handler.obtainMessage();
                         Bundle bundle = new Bundle();
-                        String str = "room_code/" + info[2].toString();
+                        String str = "make_room/" + info[2];
                         bundle.putString("value", str);
                         msg.setData(bundle);
                         handler.sendMessage(msg);
                     }
+                    break;
+                case "enter_room":
+                    Message msg = handler.obtainMessage();
+                    Bundle bundle = new Bundle();
+                    String str = line;
+                    bundle.putString("value", str);
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
                     break;
                 default:
                     Log.e("Lobby", "unknown" + line);

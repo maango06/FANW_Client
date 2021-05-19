@@ -3,6 +3,7 @@ package com.example.newyorkclient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class MadeRoom extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v("oncreate", "yes");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made_room);
         player1 = findViewById(R.id.player1);

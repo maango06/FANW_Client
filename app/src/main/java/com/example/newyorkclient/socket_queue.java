@@ -8,7 +8,7 @@ public class socket_queue {
     Queue<String> que = new LinkedList<>();
     ReentrantLock lock = new ReentrantLock();
 
-    void add(String _str) {
+    void push(String _str) {
         lock.lock();
         this.que.add(_str);
         lock.unlock();
