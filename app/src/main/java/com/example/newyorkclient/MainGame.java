@@ -25,6 +25,7 @@ public class MainGame extends AppCompatActivity {
     MyPaintView view;
     int tColor,n=0;
     String topic; // 최종 주제
+    String lier; //최종 범인
     TextView who;
     ProgressBar timeout;
 
@@ -82,6 +83,31 @@ public class MainGame extends AppCompatActivity {
         ad.create();
         ad.show();
         // 여기까지
+
+        final int[] fake = new int[1];
+        final String[] player = new String[]{"p1","p2","p3","p4","p5","p6"};
+        AlertDialog.Builder vote = new AlertDialog.Builder(MainGame.this);
+        ad.setIcon(R.mipmap.fake_artist);
+        ad.setTitle("가짜 예술가를 선택하세요").setSingleChoiceItems(topics, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fake[0] = which;
+            }
+        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                lier =  player[fake[0]];
+                //서버로 뽑은 플레이어를 보내는 코드 넣어야 됨
+
+
+
+                Intent intent = new Intent(MainGame.this, Result.class);
+                startActivity(intent);
+            }
+        });
+
+        vote.create();
+        vote.show();
 
         //30 초간 터치 가능하게 하는 기능 -->> 돌아가면서 그림 그릴 때 사용
         new CountDownTimer(29999, 1000) {

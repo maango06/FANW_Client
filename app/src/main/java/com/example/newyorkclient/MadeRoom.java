@@ -71,6 +71,7 @@ public class MadeRoom extends AppCompatActivity {
                     public void onFinish() {
                         Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
                         startActivity(intent3);
+                        start.setText("시작하기");
                     }
                 }.start();
             }

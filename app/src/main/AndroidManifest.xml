@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/fake_artist_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewYorkClient">
-        <activity android:name=".MainGame"></activity>
+        <activity android:name=".Result"></activity>
+        <activity android:name=".MainGame" />
         <activity android:name=".MadeRoom" />
         <activity android:name=".Lobby" />
 
