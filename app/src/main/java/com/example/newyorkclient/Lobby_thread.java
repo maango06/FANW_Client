@@ -24,6 +24,7 @@ public class Lobby_thread extends Thread{
 
     @Override
     public void run() {
+        Log.v("Lobby_thread", "start");
         socket_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
         String line = null;
         while(true) {
@@ -35,7 +36,7 @@ public class Lobby_thread extends Thread{
             }
             Log.v("Lobby_thread", line);
 
-            String[] info = line.split("/");
+            String[] info = line.split("\\|");
             switch(info[0]) {
                 case "make_room":
                     if(info[1].equals("E")) {
@@ -44,7 +45,7 @@ public class Lobby_thread extends Thread{
                     } else {
                         Message msg = handler.obtainMessage();
                         Bundle bundle = new Bundle();
-                        String str = "make_room/" + info[2];
+                        String str = "make_room|" + info[2];
                         bundle.putString("value", str);
                         msg.setData(bundle);
                         handler.sendMessage(msg);
@@ -56,7 +57,7 @@ public class Lobby_thread extends Thread{
                     } else {
                         Message msg = handler.obtainMessage();
                         Bundle bundle = new Bundle();
-                        String str = info[0] + "/" + info[2];
+                        String str = info[0] + "|" + info[2];
                         bundle.putString("value", str);
                         msg.setData(bundle);
                         handler.sendMessage(msg);
@@ -74,5 +75,6 @@ public class Lobby_thread extends Thread{
                     Log.e("Lobby", "unknown" + line);
             }
         }
+        Log.v("Lobby_thread", "stop");
     }
 }

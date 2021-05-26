@@ -31,9 +31,10 @@ public class MadeRoom_thread extends Thread{
             }
             Log.v("Lobby_thread", line);
 
-            String[] info = line.split("/");
+            String[] info = line.split("\\|");
             switch(info[0]) {
                 case "message":
+                case "room_info":
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("value", line);
@@ -41,7 +42,7 @@ public class MadeRoom_thread extends Thread{
                     handler.sendMessage(msg);
                     break;
                 default:
-                    Log.e("Lobby", "unknown" + line);
+                    Log.e("MadeRoom", "unknown" + line);
             }
         }
     }

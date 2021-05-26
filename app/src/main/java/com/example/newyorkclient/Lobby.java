@@ -51,7 +51,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
-                        new send_thread("nickname/" + result).start();
+                        new send_thread("nickname|" + result).start();
                         dialog.dismiss();
                     }
                 });
@@ -62,7 +62,7 @@ public class Lobby extends AppCompatActivity {
         nick_name = intent.getExtras().getString("name");
         player_id = intent.getExtras().getString("user_id");
         thumb_nail = intent.getExtras().getString("thumb_nail");
-        new send_thread("login/" + player_id + "/" + nick_name).start();
+        new send_thread("login|" + player_id + "|" + nick_name + "|" + thumb_nail).start();
 
         enter = findViewById(R.id.Enter);
         making = findViewById(R.id.RoomMaking);
@@ -81,7 +81,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
-                        new send_thread("enter_room/" + result).start();
+                        new send_thread("enter_room|" + result).start();
                         dialog.dismiss();
                     }
                 });
@@ -114,7 +114,7 @@ public class Lobby extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             String line = msg.getData().getString("value");
-            String[] info = line.split("/");
+            String[] info = line.split("\\|");
             switch(info[0]) {
                 case "make_room":
                     Intent intent = new Intent(Lobby.this, MadeRoom.class);
