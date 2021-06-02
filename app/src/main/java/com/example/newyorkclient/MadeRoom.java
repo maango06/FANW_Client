@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -23,8 +24,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MadeRoom extends AppCompatActivity {
-    TextView[] players = new TextView[6];
-    ImageView[] thumbs = new ImageView[6];
+    User_info[] user_info = new User_info[6];
     TextView codename;
     TextView chat_log;
 
@@ -33,6 +33,9 @@ public class MadeRoom extends AppCompatActivity {
 
     Button cancel;
     Button start;
+
+    private long backKeyPressedTime = 0;
+    private Toast toast;
 
     int player_num = 0;
     boolean master = false;
@@ -44,18 +47,22 @@ public class MadeRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_made_room);
-        players[0] = findViewById(R.id.player1);
-        thumbs[0] = findViewById(R.id.image1);
-        players[1] = findViewById(R.id.player2);
-        thumbs[1] = findViewById(R.id.image1);
-        players[2] = findViewById(R.id.player3);
-        thumbs[2] = findViewById(R.id.image1);
-        players[3] = findViewById(R.id.player4);
-        thumbs[3] = findViewById(R.id.image1);
-        players[4] = findViewById(R.id.player5);
-        thumbs[4] = findViewById(R.id.image1);
-        players[5] = findViewById(R.id.player6);
-        thumbs[5] = findViewById(R.id.image1);
+        for(int i = 0; i < 6; ++i) {
+            user_info[i] = new User_info();
+            user_info[i].player_id = "";
+        }
+        user_info[0].name = findViewById(R.id.player1);
+        user_info[0].thumb_nail = findViewById(R.id.image1);
+        user_info[1].name = findViewById(R.id.player2);
+        user_info[1].thumb_nail = findViewById(R.id.image2);
+        user_info[2].name = findViewById(R.id.player3);
+        user_info[2].thumb_nail = findViewById(R.id.image3);
+        user_info[3].name = findViewById(R.id.player4);
+        user_info[3].thumb_nail = findViewById(R.id.image4);
+        user_info[4].name = findViewById(R.id.player5);
+        user_info[4].thumb_nail = findViewById(R.id.image5);
+        user_info[5].name = findViewById(R.id.player6);
+        user_info[5].thumb_nail = findViewById(R.id.image6);
         codename = findViewById(R.id.Codename);
         cancel = findViewById(R.id.cancel);
         start = findViewById(R.id.start);
@@ -122,6 +129,21 @@ public class MadeRoom extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 1000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "한번 더 누르시면 방을 나갑니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 1000) {
+            new send_thread("quit").start();
+            finish();
+            toast.cancel();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         maderoom_thread = new MadeRoom_thread(handler);
@@ -141,13 +163,50 @@ public class MadeRoom extends AppCompatActivity {
                 case "room_info":
                     for(int i = 1; i < info.length; ++i) {
                         String[] temp = info[i].split("::");
-                        Log.v("room_info", temp[0]);
-                        Log.v("room_info", temp[1]);
-                        players[player_num].setText(temp[0]);
-                        Glide.with(MadeRoom.this).load(temp[1]).into(thumbs[player_num]);
+                        user_info[player_num].name.setText(temp[0]);
+                        user_info[player_num].player_id = temp[1];
+                        Glide.with(MadeRoom.this).load(temp[2]).into(user_info[player_num].thumb_nail);
                         ++player_num;
+                    }
+                    break;
+                case "enter_room":
+                    String[] temp = info[1].split("::");
+                    user_info[player_num].name.setText(temp[0]);
+                    user_info[player_num].player_id = temp[1];
+                    Glide.with(MadeRoom.this).load(temp[2]).into(user_info[player_num].thumb_nail);
+                    ++player_num;
+                case "quit_room":
+
+                    int num = 0;
+                    for(;num<6;++num) {
+                        if(user_info[num].player_id.equals(info[1]))
+                            break;
+                    }
+
+                    for(;num<6;++num) {
+                        if(num == 5) {
+                            if(!user_info[num].player_id.equals("")) {
+                                user_info[num].name.setText("");
+                                user_info[num].player_id = "";
+                                user_info[num].thumb_nail.setImageResource(R.drawable.kakao_default_profile_image);
+                            }
+                            break;
+                        }
+                        if(user_info[num+1].player_id.equals("")) {
+                            user_info[num].name.setText("");
+                            user_info[num].player_id = "";
+                            user_info[num].thumb_nail.setImageResource(R.drawable.kakao_default_profile_image);
+                            break;
+                        }
+                        else {
+                            user_info[num].name.setText(user_info[num+1].name.getText());
+                            user_info[num].player_id = user_info[num + 1].player_id;
+                            user_info[num].thumb_nail.setImageDrawable(user_info[num+1].thumb_nail.getDrawable());
+                        }
 
                     }
+
+                    break;
             }
         }
     }

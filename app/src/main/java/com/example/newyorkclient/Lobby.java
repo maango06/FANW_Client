@@ -123,7 +123,7 @@ public class Lobby extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case "enter_room":
-                    if(info[1] == "S") {
+                    if(info[1].equals("S")) {
                         Intent intent2 = new Intent(Lobby.this, MadeRoom.class);
                         intent2.putExtra("master", false);
                         intent2.putExtra("room_code", info[2]);
@@ -148,5 +148,4 @@ public class Lobby extends AppCompatActivity {
             }
         }
     }
-
 }

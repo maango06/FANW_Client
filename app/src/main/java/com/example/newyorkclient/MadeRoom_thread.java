@@ -35,6 +35,9 @@ public class MadeRoom_thread extends Thread{
             switch(info[0]) {
                 case "message":
                 case "room_info":
+                case "enter_room":
+                case "quit_room":
+                case "quit_check":
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("value", line);
