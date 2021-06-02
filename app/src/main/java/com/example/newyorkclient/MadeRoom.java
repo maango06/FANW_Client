@@ -2,7 +2,6 @@ package com.example.newyorkclient;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,9 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -83,6 +80,9 @@ public class MadeRoom extends AppCompatActivity {
         new send_thread("room_info").start();
 
         handler = new MadeRoom_handler();
+
+        if(master==true)
+            start.setEnabled(true);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
