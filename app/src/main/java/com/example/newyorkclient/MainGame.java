@@ -84,6 +84,7 @@ public class MainGame extends AppCompatActivity {
         ad.show();
         // 여기까지
 
+        //가짜 예술가 투표 하는 기능
         final int[] fake = new int[1];
         final String[] player = new String[]{"p1","p2","p3","p4","p5","p6"};
         AlertDialog.Builder vote = new AlertDialog.Builder(MainGame.this);

@@ -154,9 +154,7 @@ public class MadeRoom extends AppCompatActivity {
                     chat_log.setText(str);
                     break;
                 case "room_info":
-                    Log.v("room_info_length", Integer.toString(info.length));
                     for(int i = 1; i < info.length; ++i) {
-                        Log.v("room_info", info[i]);
                         String[] temp = info[i].split("::");
                         user_info[player_num].name.setText(temp[0]);
                         user_info[player_num].player_id = temp[1];
