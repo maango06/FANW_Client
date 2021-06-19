@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -28,6 +29,8 @@ public class MainGame extends AppCompatActivity {
     String lier; //최종 범인
     TextView who;
     ProgressBar timeout;
+    Button check;
+    AlertDialog theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,80 +38,66 @@ public class MainGame extends AppCompatActivity {
         setContentView(R.layout.activity_main_game);
         who = findViewById(R.id.who);
         timeout = findViewById(R.id.timeout);
+        check = findViewById(R.id.check);
 
-        //주제 선정(랜덤으로 한 명한테 이 기능 부여) 및 라이어 선정
-        final int[] selectedTopic = {0};
-        final String[] topics = new String[]{"동물","장소","직업","먹을 것","탈 것","감정"};
-        AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
-        ad.setIcon(R.mipmap.fake_artist);
-        ad.setTitle("주제 선정").setSingleChoiceItems(topics, 0, new DialogInterface.OnClickListener() {
+        check.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                selectedTopic[0] = which;
-            }
-        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                topic =  topics[selectedTopic[0]];
-                //아래 if 조건 안에 라이어 조건 집어 넣기
-                if(true){
-                    AlertDialog.Builder choose = new AlertDialog.Builder(MainGame.this);
-                    choose.setIcon(R.mipmap.fake_artist);
-                    choose.setTitle("당신은 예술가 입니다!");
-                    choose.setMessage("\t\t\t\t\t\t\t\t\t\t\t\t\t\t주제: "+ topic+"\n"+"\t\t\t\t\t\t\t\t\t\t\t\t제시어: "+ "answer");
-                    choose.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    choose.show();
-                }
-                else{
-                    AlertDialog.Builder choose = new AlertDialog.Builder(MainGame.this);
-                    choose.setIcon(R.mipmap.fake_artist);
-                    choose.setTitle("당신은 가짜 예술가입니다!");
-                    choose.setMessage("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t주제: "+ topic);
-
-                    choose.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    choose.show();
-                }
+            public void onClick(View v) {
+                theme.show();
             }
         });
 
-        ad.create();
-        ad.show();
-        // 여기까지
 
-        //가짜 예술가 투표 하는 기능
-        final int[] fake = new int[1];
-        final String[] player = new String[]{"p1","p2","p3","p4","p5","p6"};
-        AlertDialog.Builder vote = new AlertDialog.Builder(MainGame.this);
-        ad.setIcon(R.mipmap.fake_artist);
-        ad.setTitle("가짜 예술가를 선택하세요").setSingleChoiceItems(topics, 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                fake[0] = which;
-            }
-        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                lier =  player[fake[0]];
-                //서버로 뽑은 플레이어를 보내는 코드 넣어야 됨
+        if(true){
+            AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
+            ad.setIcon(R.mipmap.fake_artist);
+            ad.setTitle("당신은 예술가 입니다!");
+            ad.setMessage("주제 : 서버에서 받아온거\n" + "정답 : 서버에서 받아온 거");
+            ad.setPositiveButton("확인", null);
+            theme = ad.show();
+            TextView mess = (TextView)theme.findViewById(android.R.id.message);
+            mess.setGravity(Gravity.CENTER);
+            theme.show();
+        }
+        else{
+            AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
+            ad.setIcon(R.mipmap.fake_artist);
+            ad.setTitle("당신은 라이어입니다!");
+            ad.setMessage("주제 : 서버에서 받아온거");
+            ad.setPositiveButton("확인", null);
+            theme = ad.show();
+            TextView mess = (TextView)theme.findViewById(android.R.id.message);
+            mess.setGravity(Gravity.CENTER);
+            theme.show();
+        }
 
 
 
-                Intent intent = new Intent(MainGame.this, Result.class);
-                startActivity(intent);
-            }
-        });
+//        //가짜 예술가 투표 하는 기능
+//        final int[] fake = new int[1];
+//        final String[] player = new String[]{"p1","p2","p3","p4","p5","p6"};
+//        AlertDialog.Builder vote = new AlertDialog.Builder(MainGame.this);
+//        ad.setIcon(R.mipmap.fake_artist);
+//        ad.setTitle("가짜 예술가를 선택하세요").setSingleChoiceItems(topics, 0, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                fake[0] = which;
+//            }
+//        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                lier =  player[fake[0]];
+//                //서버로 뽑은 플레이어를 보내는 코드 넣어야 됨
+//
+//
+//
+//                Intent intent = new Intent(MainGame.this, Result.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        vote.create();
-        vote.show();
+//        vote.create();
+//        vote.show();
 
         //30 초간 터치 가능하게 하는 기능 -->> 돌아가면서 그림 그릴 때 사용
         new CountDownTimer(29999, 1000) {
