@@ -168,20 +168,6 @@
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <Button
-        android:id="@+id/cancel"
-        android:textSize="24dp"
-        android:layout_width="140dp"
-        android:layout_height="80dp"
-        android:background="#324EEA"
-        android:text="취소"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7" />
-
-    <Button
         android:id="@+id/start"
         android:textSize="24dp"
         android:layout_width="140dp"

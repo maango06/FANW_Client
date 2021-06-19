@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -24,7 +23,6 @@ public class MadeRoom extends AppCompatActivity {
     Button sending_button;
     EditText sending_text;
 
-    Button cancel;
     Button start;
 
     private long backKeyPressedTime = 0;
@@ -57,13 +55,11 @@ public class MadeRoom extends AppCompatActivity {
         user_info[5].name = findViewById(R.id.player6);
         user_info[5].thumb_nail = findViewById(R.id.image6);
         codename = findViewById(R.id.Codename);
-        cancel = findViewById(R.id.cancel);
         start = findViewById(R.id.start);
         sending_button = findViewById(R.id.sending_button);
         sending_text = findViewById(R.id.sending_text);
         chat_log = findViewById(R.id.chat_log);
 
-        cancel.setEnabled(false);
         start.setEnabled(false);
 
         Intent now_intent = getIntent();
@@ -80,28 +76,9 @@ public class MadeRoom extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CountDownTimer(4999, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        cancel.setEnabled(true);
-                        String a = String.valueOf(millisUntilFinished/1000);
-                        start.setText(a);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                cancel();
-                                start.setText("시작하기");
-                                cancel.setEnabled(false);
-                            }
-                        });
-                    }
-                    @Override
-                    public void onFinish() {
-                        Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
-                        startActivity(intent3);
-                        start.setText("시작하기");
-                    }
-                }.start();
+                new send_thread("game_start");
+                Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
+                startActivity(intent3);
             }
         });
 

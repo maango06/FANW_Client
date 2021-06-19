@@ -78,10 +78,12 @@ public class MyPaintView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
+        float x = event.getX();
+        float y = event.getY();
         switch (action) {
             case MotionEvent.ACTION_UP:
                 changed = true;
-                Rect rect = touchUp(event, false);
+                Rect rect = touchUp(x, y, false);
                 if (rect != null) {
                     invalidate(rect);
                 }
@@ -89,14 +91,14 @@ public class MyPaintView extends View {
 
                 return true;
             case MotionEvent.ACTION_DOWN:
-                rect = touchDown(event);
+                rect = touchDown(x, y);
                 if (rect != null) {
                     invalidate(rect);
                 }
 
                 return true;
             case MotionEvent.ACTION_MOVE:
-                rect = touchMove(event);
+                rect = touchMove(x, y);
                 if (rect != null) {
                     invalidate(rect);
                 }
@@ -106,14 +108,42 @@ public class MyPaintView extends View {
         return false;
     }
 
-    private Rect touchMove(MotionEvent event) {
-        Rect rect=processMove(event);
+    public void draw_something(String _line) {
+        String info[] = _line.split("\\|");
+        float x = Float.parseFloat(info[1]);
+        float y = Float.parseFloat(info[2]);
+        switch(info[0]) {
+            case "draw_up":
+                changed = true;
+                Rect rect = touchUp(x, y, false);
+                if (rect != null) {
+                    invalidate(rect);
+                }
+                mPath.rewind();
+                break;
+            case "draw_down":
+                rect = touchDown(x, y);
+                if (rect != null) {
+                    invalidate(rect);
+                }
+                break;
+            case "draw_move":
+                rect = touchMove(x, y);
+                if (rect != null) {
+                    invalidate(rect);
+                }
+                break;
+        }
+    }
+
+    private Rect touchMove(float x, float y) {
+        String msg = "draw_move|" + x + "|" + y;
+        new send_thread(msg);
+        Rect rect=processMove(x, y);
         return rect;
     }
 
-    private Rect processMove(MotionEvent event) {
-        final float x=event.getX();
-        final float y=event.getY();
+    private Rect processMove(float x, float y) {
 
         final float dx=Math.abs(x-lastX);
         final float dy=Math.abs(y-lastY);
@@ -143,10 +173,9 @@ public class MyPaintView extends View {
         return mInvalidateRect;
     }
 
-    private Rect touchDown(MotionEvent event) {
-        float x=event.getX();
-        float y=event.getY();
-
+    private Rect touchDown(float x, float y) {
+        String msg = "draw_down|" + x + "|" + y;
+        new send_thread(msg);
         lastX=x;
         lastY=y;
 
@@ -163,15 +192,21 @@ public class MyPaintView extends View {
     }
     public void setStrokeWidth(int width){
         mPaint.setStrokeWidth(width);
+        String msg = "thickness|" + Integer.toString(width);
+        new send_thread(msg);
     }
 
-    private Rect touchUp(MotionEvent event, boolean b) {
-        Rect rect=processMove(event);
+    private Rect touchUp(float x, float y, boolean b) {
+        Rect rect=processMove(x, y);
+        String msg = "draw_up|" + x + "|" + y;
+        new send_thread(msg);
         return rect;
     }
 
     public void setColor(int color){
         mPaint.setColor(color);
+        String msg = "color|" + Integer.toString(color);
+        new send_thread(msg);
 
     }
     public void setCap(int cap){
