@@ -1,7 +1,5 @@
 package com.example.newyorkclient;
 
-import android.util.Log;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -11,9 +9,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class send_thread extends Thread{
     String msg;
+    int my_turn;
     static Lock lock = new ReentrantLock();
     static Socket socket = GlobalApplication.getGlobalApplicationContext().getSocket();
     static BufferedWriter writer;
+    static int now_turn = 0;
+    static int ticket = 0;
 
     static {
         try {
@@ -24,12 +25,19 @@ public class send_thread extends Thread{
     }
 
     send_thread(String _msg) {
+
         this.msg = _msg;
+        this.my_turn = ticket;
+        ticket++;
     }
 
     @Override
     public void run() {
+        while(now_turn != my_turn) {
+            Thread.yield();
+        }
         lock.lock();
+
         try {
             writer.write(msg);
             writer.newLine();
@@ -37,6 +45,7 @@ public class send_thread extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            now_turn++;
             lock.unlock();
         }
     }
