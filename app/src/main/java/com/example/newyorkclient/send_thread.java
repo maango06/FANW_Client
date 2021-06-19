@@ -29,7 +29,6 @@ public class send_thread extends Thread{
 
     @Override
     public void run() {
-        Log.v("send_thread", "ID is : " + this.getId());
         lock.lock();
         try {
             writer.write(msg);

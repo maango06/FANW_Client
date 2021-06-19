@@ -44,7 +44,7 @@ public class GlobalApplication extends Application {
             @Override
             public void run() {
                 try {
-                    socket = new Socket("218.146.163.216", 8989);
+                    socket = new Socket("121.145.14.218", 8989);
                     new read_thread().start();
                     Log.v("global", "thread finish");
                 } catch (IOException e) {

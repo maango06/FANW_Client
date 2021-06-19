@@ -29,7 +29,7 @@ public class MadeRoom_thread extends Thread{
                 Thread.yield();
                 continue;
             }
-            Log.v("Lobby_thread", line);
+            Log.v("MadeRoom_thread", line);
 
             String[] info = line.split("\\|");
             switch(info[0]) {

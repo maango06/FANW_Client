@@ -1,11 +1,8 @@
 package com.example.newyorkclient;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -14,14 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MadeRoom extends AppCompatActivity {
     User_info[] user_info = new User_info[6];
@@ -161,7 +154,9 @@ public class MadeRoom extends AppCompatActivity {
                     chat_log.setText(str);
                     break;
                 case "room_info":
+                    Log.v("room_info_length", Integer.toString(info.length));
                     for(int i = 1; i < info.length; ++i) {
+                        Log.v("room_info", info[i]);
                         String[] temp = info[i].split("::");
                         user_info[player_num].name.setText(temp[0]);
                         user_info[player_num].player_id = temp[1];
