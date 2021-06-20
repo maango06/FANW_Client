@@ -44,7 +44,6 @@ public class MainGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
         who = findViewById(R.id.who);
-        timeout = findViewById(R.id.timeout);
         check = findViewById(R.id.check);
 
         check.setOnClickListener(new View.OnClickListener() {
