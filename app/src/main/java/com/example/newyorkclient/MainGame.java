@@ -30,7 +30,7 @@ public class MainGame extends AppCompatActivity {
     MyPaintView view;
     int tColor,n=0;
     String main_topic, small_topic;
-    TextView who;
+    TextView who, timer_view;
     Button check;
     AlertDialog theme;
 
@@ -43,6 +43,7 @@ public class MainGame extends AppCompatActivity {
         setContentView(R.layout.activity_main_game);
         who = findViewById(R.id.who);
         check = findViewById(R.id.check);
+        timer_view = findViewById(R.id.timer);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,6 +257,7 @@ public class MainGame extends AppCompatActivity {
                     break;
                 case "now_turn":
                     String temp_msg = "차례 : " + info[1];
+                    new game_timer(59).start();
                     who.setText(temp_msg);
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     break;
@@ -263,6 +265,34 @@ public class MainGame extends AppCompatActivity {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     break;
             }
+        }
+    }
+
+    class game_timer extends Thread {
+        int sec;
+        game_timer(int _sec) {
+            this.sec = _sec;
+        }
+        @Override
+        public void run() {
+            long before = System.currentTimeMillis();
+            long next_before = before + 1000;
+            long after = before + sec * 1000;
+
+            while(true) {
+                if(System.currentTimeMillis() < next_before)
+                    Thread.yield();
+                else {
+                    before += 1000;
+                    next_before += 1000;
+                    --sec;
+                    timer_view.setText(sec);
+                }
+                 if (before >= after) {
+                     break;
+                 }
+            }
+            view.clear();
         }
     }
 }
