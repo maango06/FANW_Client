@@ -278,30 +278,32 @@ public class MainGame extends AppCompatActivity {
                         LayoutInflater factory = LayoutInflater.from(MainGame.this);
                         final View viewr = factory.inflate(R.layout.real, null);
                         real.setView(viewr);
-                        TextView temp = findViewById(R.id.real_result_text);
-                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가였습니다!\n진짜예술가들의 승리!";
-                        temp.setText(temp2_msg);
                         real.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dlg, int sumthin) {
                                 finish();
                             }
                         });
-                        real.show();
+                        AlertDialog dialog = real.show();
+                        TextView temp = dialog.findViewById(R.id.real_result_text);
+                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가였습니다!\n진짜예술가들의 승리!";
+                        temp.setText(temp2_msg);
+                        dialog.show();
                     }
                     else {
                         AlertDialog.Builder fake = new AlertDialog.Builder(MainGame.this);
                         LayoutInflater factory2 = LayoutInflater.from(MainGame.this);
                         final View viewr2 = factory2.inflate(R.layout.real, null);
                         fake.setView(viewr2);
-                        TextView temp = findViewById(R.id.fake_result_text);
-                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가 아닙니다!\n가짜예술가의 승리!";
-                        temp.setText(temp2_msg);
                         fake.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dlg, int sumthin) {
                                 finish();
                             }
                         });
-                        fake.show();
+                        AlertDialog dialog = fake.show();
+                        TextView temp = dialog.findViewById(R.id.fake_result_text);
+                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가 아닙니다!\n가짜예술가의 승리!";
+                        temp.setText(temp2_msg);
+                        dialog.show();
                     }
                     break;
             }
