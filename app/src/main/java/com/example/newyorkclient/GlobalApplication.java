@@ -17,7 +17,7 @@ import java.net.Socket;
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
 
-    private static socket_queue que = new socket_queue();
+    private static lock_queue que = new lock_queue();
     private static Socket socket;
 
     public static GlobalApplication getGlobalApplicationContext() {
@@ -28,7 +28,7 @@ public class GlobalApplication extends Application {
         return instance;
     }
 
-    socket_queue getQue() { return que; }
+    lock_queue getQue() { return que; }
 
     Socket getSocket() { return socket; }
 

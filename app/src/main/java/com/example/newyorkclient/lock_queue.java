@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class socket_queue {
+public class lock_queue {
     Queue<String> que = new LinkedList<>();
     ReentrantLock lock = new ReentrantLock();
 

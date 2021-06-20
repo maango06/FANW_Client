@@ -5,10 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Queue;
-
 public class Lobby_thread extends Thread{
 
     Handler handler = null;
@@ -25,7 +21,7 @@ public class Lobby_thread extends Thread{
     @Override
     public void run() {
         Log.v("Lobby_thread", "start");
-        socket_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
+        lock_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
         String line = null;
         while(true) {
             if(this.stop) break;

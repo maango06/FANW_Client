@@ -12,7 +12,7 @@ public class read_thread extends Thread{
     public void run() {
         Log.v("read_thread", "ID is : " + this.getId());
         Socket socket = GlobalApplication.getGlobalApplicationContext().getSocket();
-        socket_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
+        lock_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "EUC_KR"));
             while(true) {
