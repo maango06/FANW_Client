@@ -122,6 +122,7 @@ public class Lobby extends AppCompatActivity {
                     Intent intent = new Intent(Lobby.this, MadeRoom.class);
                     intent.putExtra("master", true);
                     intent.putExtra("room_code", info[1]);
+                    intent.putExtra("player_id", player_id);
                     startActivity(intent);
                     break;
                 case "enter_room":
@@ -129,6 +130,7 @@ public class Lobby extends AppCompatActivity {
                         Intent intent2 = new Intent(Lobby.this, MadeRoom.class);
                         intent2.putExtra("master", false);
                         intent2.putExtra("room_code", info[2]);
+                        intent2.putExtra("player_id", player_id);
                         startActivity(intent2);
                     }
                     else {

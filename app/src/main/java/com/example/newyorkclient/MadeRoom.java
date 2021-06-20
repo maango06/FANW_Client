@@ -35,6 +35,7 @@ public class MadeRoom extends AppCompatActivity {
     int player_num = 0;
     boolean master = false;
     String room_code = null;
+    String my_id;
     MadeRoom_thread maderoom_thread = null;
     MadeRoom_handler handler = null;
 
@@ -68,6 +69,7 @@ public class MadeRoom extends AppCompatActivity {
         Intent now_intent = getIntent();
         room_code = now_intent.getStringExtra("room_code");
         master = now_intent.getBooleanExtra("master", false);
+        my_id = now_intent.getStringExtra("player_id");
 
         if(!master)
             start.setEnabled(false);
@@ -177,6 +179,10 @@ public class MadeRoom extends AppCompatActivity {
                     text_list[player_num].setText("");
                     image_list[player_num].setImageResource(R.drawable.kakao_default_profile_image);
 
+                    if(user_info[0].player_id.equals(my_id)) {
+                        master = true;
+                        start.setEnabled(true);
+                    }
                     break;
                 case "game_start":
                     Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
