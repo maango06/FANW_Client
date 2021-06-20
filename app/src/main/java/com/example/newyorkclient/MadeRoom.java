@@ -78,8 +78,6 @@ public class MadeRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new send_thread("game_start");
-                Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
-                startActivity(intent3);
             }
         });
 
@@ -174,9 +172,11 @@ public class MadeRoom extends AppCompatActivity {
                             user_info[num].player_id = user_info[num + 1].player_id;
                             user_info[num].thumb_nail.setImageDrawable(user_info[num+1].thumb_nail.getDrawable());
                         }
-
                     }
-
+                    break;
+                case "game_start":
+                    Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
+                    startActivity(intent3);
                     break;
             }
         }
