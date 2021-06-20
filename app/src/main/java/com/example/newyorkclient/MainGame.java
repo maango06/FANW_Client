@@ -35,7 +35,7 @@ public class MainGame extends AppCompatActivity {
     Button check, btn, btn2, btn3;
     AlertDialog theme;
     User_info[] user_info = new User_info[6];
-
+    Lock_queue draw_queue = new Lock_queue();
 
     int player_num;
 
@@ -126,6 +126,7 @@ public class MainGame extends AppCompatActivity {
 
         //아래 코드들은 전부 그림 그리기 관련
         view = new MyPaintView(this);
+        view.get_queue(draw_queue);
 
         LinearLayout container = (LinearLayout)findViewById(R.id.container);
         Resources res = getResources();
@@ -189,8 +190,7 @@ public class MainGame extends AppCompatActivity {
                         int width = Integer.parseInt(editText.getText().toString());
                         view.setStrokeWidth(width);
                         String msg = "thickness|" + Integer.toString(width);
-                        new send_thread(msg).start();
-
+                        draw_queue.push(msg);
                     }
                 });
         builder.setNegativeButton("취소",
@@ -215,7 +215,7 @@ public class MainGame extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),""+tColor,Toast.LENGTH_LONG).show();
                 view.setColor(color);
                 String msg = "color|" + Integer.toString(color);
-                new send_thread(msg).start();
+                draw_queue.push(msg);
             }
         });
         colorPicker.show();
@@ -224,7 +224,7 @@ public class MainGame extends AppCompatActivity {
     private void clear(){
         view.clear();
         String msg = "clear";
-        new send_thread(msg).start();
+        draw_queue.push(msg);
     }
 
     public void set_popup() {
@@ -302,6 +302,37 @@ public class MainGame extends AppCompatActivity {
         }
     }
 
+    class Lock_queue_thread extends Thread {
+        Lock_queue lock_queue;
+        boolean stop = false;
+        Lock_queue_thread(Lock_queue _var) {
+            this.lock_queue = _var;
+        }
+        public void set_stop() {
+            this.stop = true;
+        }
+        @Override
+        public void run() {
+            String line;
+            while(true) {
+                if(this.stop) break;
+                line = lock_queue.pop();
+                if(line == null) {
+                    Thread.yield();
+                    continue;
+                }
+                send_thread temp = new send_thread(line);
+                temp.start();
+                try {
+                    temp.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
     class game_timer extends Thread {
         int sec;
         game_timer(int _sec) {
@@ -332,6 +363,7 @@ public class MainGame extends AppCompatActivity {
                  }
             }
             set_touch(false);
+            draw_queue.clear();
         }
     }
 }

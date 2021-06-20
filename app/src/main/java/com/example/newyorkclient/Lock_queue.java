@@ -20,4 +20,8 @@ public class Lock_queue {
         lock.unlock();
         return _str;
     }
+
+    void clear() {
+        que.clear();
+    }
 }

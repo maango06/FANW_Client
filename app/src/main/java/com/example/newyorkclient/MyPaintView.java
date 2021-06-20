@@ -29,6 +29,8 @@ public class MyPaintView extends View {
     float mCurveEndX;
     float mCurveEndY;
 
+    Lock_queue draw_queue;
+
     int mInvalidateExtraBorder = 10;
 
     static final float TOUCH_TOLERANCE = 8;
@@ -43,6 +45,10 @@ public class MyPaintView extends View {
     public MyPaintView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
+    }
+
+    public void get_queue(Lock_queue _temp) {
+        this.draw_queue = _temp;
     }
 
     private void init(Context context) {
@@ -93,7 +99,7 @@ public class MyPaintView extends View {
             case MotionEvent.ACTION_UP:
                 changed = true;
                 msg = "draw_up|" + x + "|" + y;
-                new send_thread(msg).start();
+                draw_queue.push(msg);
                 Rect rect = touchUp(x, y, false);
                 if (rect != null) {
                     invalidate(rect);
@@ -103,7 +109,7 @@ public class MyPaintView extends View {
                 return true;
             case MotionEvent.ACTION_DOWN:
                 msg = "draw_down|" + x + "|" + y;
-                new send_thread(msg).start();
+                draw_queue.push(msg);
                 rect = touchDown(x, y);
                 if (rect != null) {
                     invalidate(rect);
@@ -112,7 +118,7 @@ public class MyPaintView extends View {
                 return true;
             case MotionEvent.ACTION_MOVE:
                 msg = "draw_move|" + x + "|" + y;
-                new send_thread(msg).start();
+                draw_queue.push(msg);
                 rect = touchMove(x, y);
                 if (rect != null) {
                     invalidate(rect);
