@@ -80,9 +80,12 @@ public class MyPaintView extends View {
         int action = event.getAction();
         float x = event.getX();
         float y = event.getY();
+        String msg;
         switch (action) {
             case MotionEvent.ACTION_UP:
                 changed = true;
+                msg = "draw_up|" + x + "|" + y;
+                new send_thread(msg).start();
                 Rect rect = touchUp(x, y, false);
                 if (rect != null) {
                     invalidate(rect);
@@ -91,6 +94,8 @@ public class MyPaintView extends View {
 
                 return true;
             case MotionEvent.ACTION_DOWN:
+                msg = "draw_down|" + x + "|" + y;
+                new send_thread(msg).start();
                 rect = touchDown(x, y);
                 if (rect != null) {
                     invalidate(rect);
@@ -98,6 +103,8 @@ public class MyPaintView extends View {
 
                 return true;
             case MotionEvent.ACTION_MOVE:
+                msg = "draw_move|" + x + "|" + y;
+                new send_thread(msg).start();
                 rect = touchMove(x, y);
                 if (rect != null) {
                     invalidate(rect);
@@ -137,8 +144,6 @@ public class MyPaintView extends View {
     }
 
     private Rect touchMove(float x, float y) {
-        String msg = "draw_move|" + x + "|" + y;
-        new send_thread(msg);
         Rect rect=processMove(x, y);
         return rect;
     }
@@ -174,8 +179,6 @@ public class MyPaintView extends View {
     }
 
     private Rect touchDown(float x, float y) {
-        String msg = "draw_down|" + x + "|" + y;
-        new send_thread(msg).start();
         lastX=x;
         lastY=y;
 
@@ -198,15 +201,13 @@ public class MyPaintView extends View {
 
     private Rect touchUp(float x, float y, boolean b) {
         Rect rect=processMove(x, y);
-        String msg = "draw_up|" + x + "|" + y;
-        new send_thread(msg).start();
         return rect;
     }
 
     public void setColor(int color){
         mPaint.setColor(color);
         String msg = "color|" + Integer.toString(color);
-        new send_thread(msg);
+        new send_thread(msg).start();
 
     }
     public void setCap(int cap){
