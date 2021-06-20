@@ -8,6 +8,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -19,18 +21,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class MainGame extends AppCompatActivity {
 
     MyPaintView view;
     int tColor,n=0;
-    String topic; // 최종 주제
+    String main_topic, small_topic;
     String lier; //최종 범인
     TextView who;
     ProgressBar timeout;
     Button check;
     AlertDialog theme;
+
+    MainGame_thread maingame_thread = null;
+    MainGame_handler handler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,35 +50,9 @@ public class MainGame extends AppCompatActivity {
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                theme.show();
+                set_popup();
             }
         });
-
-
-        if(true){
-            AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
-            ad.setIcon(R.mipmap.fake_artist);
-            ad.setTitle("당신은 예술가 입니다!");
-            ad.setMessage("주제 : 서버에서 받아온거\n" + "정답 : 서버에서 받아온 거");
-            ad.setPositiveButton("확인", null);
-            theme = ad.show();
-            TextView mess = (TextView)theme.findViewById(android.R.id.message);
-            mess.setGravity(Gravity.CENTER);
-            theme.show();
-        }
-        else{
-            AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
-            ad.setIcon(R.mipmap.fake_artist);
-            ad.setTitle("당신은 라이어입니다!");
-            ad.setMessage("주제 : 서버에서 받아온거");
-            ad.setPositiveButton("확인", null);
-            theme = ad.show();
-            TextView mess = (TextView)theme.findViewById(android.R.id.message);
-            mess.setGravity(Gravity.CENTER);
-            theme.show();
-        }
-
-
 
 //        //가짜 예술가 투표 하는 기능
 //        final int[] fake = new int[1];
@@ -100,18 +81,18 @@ public class MainGame extends AppCompatActivity {
 //        vote.show();
 
         //30 초간 터치 가능하게 하는 기능 -->> 돌아가면서 그림 그릴 때 사용
-        new CountDownTimer(29999, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                String a = String.valueOf(30-millisUntilFinished/1000);
-                int countdown = Integer.parseInt(a);
-                timeout.setProgress(countdown);
-            }
-            @Override
-            public void onFinish() {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
-        }.start();
+//        new CountDownTimer(29999, 1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                String a = String.valueOf(30-millisUntilFinished/1000);
+//                int countdown = Integer.parseInt(a);
+//                timeout.setProgress(countdown);
+//            }
+//            @Override
+//            public void onFinish() {
+//                getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//            }
+//        }.start();
 
         //화면 막기
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -155,6 +136,19 @@ public class MainGame extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        maingame_thread.set_stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        maingame_thread = new MainGame_thread(handler);
+        maingame_thread.start();
     }
 
     private void show() {
@@ -203,6 +197,65 @@ public class MainGame extends AppCompatActivity {
         int Eraser = Color.WHITE;
         view.setColor(Eraser);
         view.setStrokeWidth(100);
+    }
+
+    public void set_popup() {
+        if(!small_topic.equals("false")){
+            AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
+            ad.setIcon(R.mipmap.fake_artist);
+            ad.setTitle("당신은 예술가 입니다!");
+            ad.setMessage("대주제 : " + main_topic + "\n" + "소주제 : " + small_topic);
+            ad.setPositiveButton("확인", null);
+            theme = ad.show();
+            TextView mess = (TextView)theme.findViewById(android.R.id.message);
+            mess.setGravity(Gravity.CENTER);
+            theme.show();
+        }
+        else{
+            AlertDialog.Builder ad = new AlertDialog.Builder(MainGame.this);
+            ad.setIcon(R.mipmap.fake_artist);
+            ad.setTitle("당신은 가짜 예술가 입니다!");
+            ad.setMessage("대주제 : " + main_topic + "\n" + "소주제 : ???");
+            ad.setPositiveButton("확인", null);
+            theme = ad.show();
+            TextView mess = (TextView)theme.findViewById(android.R.id.message);
+            mess.setGravity(Gravity.CENTER);
+            theme.show();
+        }
+    }
+
+    class MainGame_handler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            String line = msg.getData().getString("value");
+            String[] info = line.split("\\|");
+            switch(info[0]) {
+                case "topic":
+                    main_topic = info[1];
+                    small_topic = info[2];
+                    set_popup();
+                    break;
+                case "thickness":
+                    view.setStrokeWidth(Integer.parseInt(info[1]));
+                    break;
+                case "color":
+                    view.setColor(Integer.parseInt(info[1]));
+                    break;
+                case "draw_up":
+                case"draw_down":
+                case"draw_move":
+                    view.draw_something(line);
+                    break;
+                case "now_turn":
+                    String temp_msg = "차례 : " + info[1];
+                    who.setText(temp_msg);
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    break;
+                case "your_turn":
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    break;
+            }
+        }
     }
 
 }

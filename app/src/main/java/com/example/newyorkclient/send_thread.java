@@ -1,5 +1,7 @@
 package com.example.newyorkclient;
 
+import android.util.Log;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -45,6 +47,7 @@ public class send_thread extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            Log.v("send_thread", Integer.toString(my_turn) + "nd thread : " + msg);
             now_turn++;
             lock.unlock();
         }

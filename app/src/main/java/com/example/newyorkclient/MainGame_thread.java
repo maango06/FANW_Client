@@ -33,6 +33,13 @@ public class MainGame_thread extends Thread{
             String[] info = line.split("\\|");
             switch(info[0]) {
                 case "topic":
+                case "thickness":
+                case "color":
+                case "draw_up":
+                case "draw_down":
+                case "draw_move":
+                case "now_turn":
+                case "your_turn":
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("value", line);
