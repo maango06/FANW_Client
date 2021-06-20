@@ -77,7 +77,7 @@ public class MadeRoom extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new send_thread("game_start");
+                new send_thread("game_start").start();
             }
         });
 
