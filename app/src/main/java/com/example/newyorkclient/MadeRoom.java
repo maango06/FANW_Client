@@ -95,6 +95,7 @@ public class MadeRoom extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         maderoom_thread.set_stop();
+        Thread.yield();
     }
 
     @Override
