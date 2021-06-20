@@ -41,6 +41,8 @@ public class MainGame_thread extends Thread{
                 case "now_turn":
                 case "your_turn":
                 case "clear":
+                case "vote":
+                case "game_result":
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("value", line);
