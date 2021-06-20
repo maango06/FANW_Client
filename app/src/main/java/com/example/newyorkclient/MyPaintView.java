@@ -175,7 +175,7 @@ public class MyPaintView extends View {
 
     private Rect touchDown(float x, float y) {
         String msg = "draw_down|" + x + "|" + y;
-        new send_thread(msg);
+        new send_thread(msg).start();
         lastX=x;
         lastY=y;
 
@@ -193,13 +193,13 @@ public class MyPaintView extends View {
     public void setStrokeWidth(int width){
         mPaint.setStrokeWidth(width);
         String msg = "thickness|" + Integer.toString(width);
-        new send_thread(msg);
+        new send_thread(msg).start();
     }
 
     private Rect touchUp(float x, float y, boolean b) {
         Rect rect=processMove(x, y);
         String msg = "draw_up|" + x + "|" + y;
-        new send_thread(msg);
+        new send_thread(msg).start();
         return rect;
     }
 
