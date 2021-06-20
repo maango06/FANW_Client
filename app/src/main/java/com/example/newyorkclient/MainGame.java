@@ -286,7 +286,12 @@ public class MainGame extends AppCompatActivity {
                     before += 1000;
                     next_before += 1000;
                     --sec;
-                    timer_view.setText(sec);
+                    (MainGame.this).runOnUiThread(new Runnable() {
+                        public void run() {
+                            timer_view.setText(sec);
+                        }
+                    });
+
                 }
                  if (before >= after) {
                      break;
