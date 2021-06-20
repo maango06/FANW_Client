@@ -7,13 +7,14 @@
 
     <ImageView
         android:id="@+id/realwin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="250dp"
         android:src="@drawable/real" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
+        android:textSize="20dp"
         android:text="가짜 예술가 ~ 가 잡혔습니다!" />
 </LinearLayout>
