@@ -257,6 +257,7 @@ public class MainGame extends AppCompatActivity {
                     view.draw_something(line);
                     break;
                 case "now_turn":
+                    view.clear();
                     String temp_msg = "차례 : " + info[1];
                     new game_timer(59).start();
                     who.setText(temp_msg);
@@ -298,7 +299,6 @@ public class MainGame extends AppCompatActivity {
                      break;
                  }
             }
-            view.clear();
         }
     }
 }
