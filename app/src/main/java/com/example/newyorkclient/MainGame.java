@@ -288,7 +288,7 @@ public class MainGame extends AppCompatActivity {
                     --sec;
                     (MainGame.this).runOnUiThread(new Runnable() {
                         public void run() {
-                            timer_view.setText(sec);
+                            timer_view.setText(Integer.toString(sec));
                         }
                     });
 
