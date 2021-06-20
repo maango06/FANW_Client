@@ -265,7 +265,7 @@ public class MainGame extends AppCompatActivity {
                     }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new send_thread("vote|"+Integer.toString(select_index[0]));
+                            new send_thread("vote|"+Integer.toString(select_index[0])).start();
                         }
                     });
 
