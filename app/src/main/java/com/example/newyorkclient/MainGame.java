@@ -239,6 +239,7 @@ public class MainGame extends AppCompatActivity {
             switch(info[0]) {
                 case "clear":
                     view.clear();
+                    break;
                 case "topic":
                     main_topic = info[1];
                     small_topic = info[2];
