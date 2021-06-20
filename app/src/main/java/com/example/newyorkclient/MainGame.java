@@ -54,6 +54,8 @@ public class MainGame extends AppCompatActivity {
             }
         });
 
+        handler = new MainGame_handler();
+
 //        //가짜 예술가 투표 하는 기능
 //        final int[] fake = new int[1];
 //        final String[] player = new String[]{"p1","p2","p3","p4","p5","p6"};
