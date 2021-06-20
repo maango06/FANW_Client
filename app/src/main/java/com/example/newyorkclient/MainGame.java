@@ -167,7 +167,10 @@ public class MainGame extends AppCompatActivity {
         builder.setPositiveButton("입력",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        view.setStrokeWidth(Integer.parseInt(editText.getText().toString()));
+                        int width = Integer.parseInt(editText.getText().toString());
+                        view.setStrokeWidth(width);
+                        String msg = "thickness|" + Integer.toString(width);
+                        new send_thread(msg).start();
 
                     }
                 });
@@ -192,6 +195,8 @@ public class MainGame extends AppCompatActivity {
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 Toast.makeText(getApplicationContext(),""+tColor,Toast.LENGTH_LONG).show();
                 view.setColor(color);
+                String msg = "color|" + Integer.toString(color);
+                new send_thread(msg).start();
             }
         });
         colorPicker.show();

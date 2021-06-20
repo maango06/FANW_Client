@@ -195,8 +195,6 @@ public class MyPaintView extends View {
     }
     public void setStrokeWidth(int width){
         mPaint.setStrokeWidth(width);
-        String msg = "thickness|" + Integer.toString(width);
-        new send_thread(msg).start();
     }
 
     private Rect touchUp(float x, float y, boolean b) {
@@ -206,9 +204,6 @@ public class MyPaintView extends View {
 
     public void setColor(int color){
         mPaint.setColor(color);
-        String msg = "color|" + Integer.toString(color);
-        new send_thread(msg).start();
-
     }
     public void setCap(int cap){
         switch(cap){
