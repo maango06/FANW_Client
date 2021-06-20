@@ -22,7 +22,7 @@
         android:id="@+id/player1"
         android:layout_width="110dp"
         android:layout_height="30dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -35,7 +35,7 @@
         android:id="@+id/player2"
         android:layout_width="110dp"
         android:layout_height="30dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,7 +48,7 @@
         android:id="@+id/player3"
         android:layout_width="110dp"
         android:layout_height="30dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
@@ -58,11 +58,11 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <TextView
-        android:id="@+id/player4"
+        android:id="@+id/player6"
         android:layout_width="110dp"
         android:layout_height="30dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
@@ -75,7 +75,7 @@
         android:layout_width="110dp"
         android:layout_height="30dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -84,11 +84,11 @@
         app:layout_constraintVertical_bias="0.55" />
 
     <TextView
-        android:id="@+id/player6"
+        android:id="@+id/player4"
         android:layout_width="110dp"
         android:layout_height="30dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -132,7 +132,7 @@
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <ImageView
-        android:id="@+id/image4"
+        android:id="@+id/image5"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -144,7 +144,7 @@
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <ImageView
-        android:id="@+id/image5"
+        android:id="@+id/image6"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -156,7 +156,7 @@
         app:srcCompat="@drawable/kakao_default_profile_image" />
 
     <ImageView
-        android:id="@+id/image6"
+        android:id="@+id/image4"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"

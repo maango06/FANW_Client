@@ -64,6 +64,8 @@ public class Lobby extends AppCompatActivity {
         thumb_nail = intent.getExtras().getString("thumb_nail");
         new send_thread("login|" + player_id + "|" + nick_name + "|" + thumb_nail).start();
 
+        nickname_textview.setText(nick_name);
+
         enter = findViewById(R.id.Enter);
         making = findViewById(R.id.RoomMaking);
         enter.setOnClickListener(new View.OnClickListener() {
