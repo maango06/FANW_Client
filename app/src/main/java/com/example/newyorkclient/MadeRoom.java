@@ -95,6 +95,11 @@ public class MadeRoom extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         maderoom_thread.set_stop();
+        try {
+            maderoom_thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
