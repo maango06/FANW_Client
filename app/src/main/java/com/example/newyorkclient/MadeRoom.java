@@ -60,11 +60,12 @@ public class MadeRoom extends AppCompatActivity {
         sending_text = findViewById(R.id.sending_text);
         chat_log = findViewById(R.id.chat_log);
 
-        start.setEnabled(false);
-
         Intent now_intent = getIntent();
         room_code = now_intent.getStringExtra("room_code");
         master = now_intent.getBooleanExtra("master", false);
+
+        if(!master)
+            start.setEnabled(false);
 
         String temp = "방코드 : " + room_code;
         codename.setText(temp);
