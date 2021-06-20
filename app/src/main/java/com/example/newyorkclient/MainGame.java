@@ -292,7 +292,7 @@ public class MainGame extends AppCompatActivity {
                     else {
                         AlertDialog.Builder fake = new AlertDialog.Builder(MainGame.this);
                         LayoutInflater factory2 = LayoutInflater.from(MainGame.this);
-                        final View viewr2 = factory2.inflate(R.layout.real, null);
+                        final View viewr2 = factory2.inflate(R.layout.fake, null);
                         fake.setView(viewr2);
                         fake.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dlg, int sumthin) {
