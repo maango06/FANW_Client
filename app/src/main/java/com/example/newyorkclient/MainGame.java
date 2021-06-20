@@ -35,7 +35,8 @@ public class MainGame extends AppCompatActivity {
     Button check, btn, btn2, btn3;
     AlertDialog theme;
     User_info[] user_info = new User_info[6];
-    Lock_queue draw_queue = new Lock_queue();
+    Lock_queue draw_queue;
+    Lock_queue_thread queue_thread;
 
     int player_num;
 
@@ -64,6 +65,8 @@ public class MainGame extends AppCompatActivity {
         });
 
         handler = new MainGame_handler();
+
+        draw_queue = new Lock_queue();
 
         new send_thread("topic").start();
 
@@ -166,11 +169,14 @@ public class MainGame extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         maingame_thread.set_stop();
+        queue_thread.set_stop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        queue_thread = new Lock_queue_thread(draw_queue);
+        queue_thread.start();
         maingame_thread = new MainGame_thread(handler);
         maingame_thread.start();
     }
