@@ -233,9 +233,13 @@ public class MainGame extends AppCompatActivity {
 
     public void set_touch(boolean _value) {
         view.set_can_touch(_value);
-        btn.setEnabled(_value);
-        btn2.setEnabled(_value);
-        btn3.setEnabled(_value);
+        (MainGame.this).runOnUiThread(new Runnable() {
+            public void run() {
+                btn.setEnabled(_value);
+                btn2.setEnabled(_value);
+                btn3.setEnabled(_value);
+            }
+        });
     }
 
     class MainGame_handler extends Handler {
