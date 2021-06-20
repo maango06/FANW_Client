@@ -19,7 +19,7 @@ public class MainGame_thread extends Thread{
 
     @Override
     public void run() {
-        lock_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
+        Lock_queue que = GlobalApplication.getGlobalApplicationContext().getQue();
         String line = null;
         while(true) {
             if(this.stop) break;

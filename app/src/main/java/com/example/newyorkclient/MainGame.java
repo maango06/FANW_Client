@@ -35,7 +35,8 @@ public class MainGame extends AppCompatActivity {
     Button check, btn, btn2, btn3;
     AlertDialog theme;
     User_info[] user_info = new User_info[6];
-    
+
+
     int player_num;
 
     MainGame_thread maingame_thread = null;
