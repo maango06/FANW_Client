@@ -31,7 +31,7 @@ public class MainGame extends AppCompatActivity {
     int tColor,n=0;
     String main_topic, small_topic;
     TextView who, timer_view;
-    Button check;
+    Button check, btn, btn2, btn3;
     AlertDialog theme;
 
     MainGame_thread maingame_thread = null;
@@ -116,9 +116,9 @@ public class MainGame extends AppCompatActivity {
 
 
 
-        Button btn=findViewById(R.id.colorPickerButton);
-        Button btn2=findViewById(R.id.thickPickerButton);
-        Button btn3 = findViewById(R.id.clear);
+        btn=findViewById(R.id.colorPickerButton);
+        btn2=findViewById(R.id.thickPickerButton);
+        btn3 = findViewById(R.id.clear);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,6 +231,13 @@ public class MainGame extends AppCompatActivity {
         }
     }
 
+    public void set_touch(boolean _value) {
+        view.set_can_touch(_value);
+        btn.setEnabled(_value);
+        btn2.setEnabled(_value);
+        btn3.setEnabled(_value);
+    }
+
     class MainGame_handler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -261,10 +268,10 @@ public class MainGame extends AppCompatActivity {
                     String temp_msg = "차례 : " + info[1];
                     new game_timer(59).start();
                     who.setText(temp_msg);
-                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    set_touch(false);
                     break;
                 case "your_turn":
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    set_touch(true);
                     break;
             }
         }
@@ -299,6 +306,7 @@ public class MainGame extends AppCompatActivity {
                      break;
                  }
             }
+            set_touch(false);
         }
     }
 }

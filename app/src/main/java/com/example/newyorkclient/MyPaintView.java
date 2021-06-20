@@ -33,6 +33,8 @@ public class MyPaintView extends View {
 
     static final float TOUCH_TOLERANCE = 8;
 
+    boolean can_touch = false;
+
     public MyPaintView(Context context) {
         super(context);
         init(context);
@@ -75,8 +77,14 @@ public class MyPaintView extends View {
         }
     }
 
+    public void set_can_touch(boolean _value) {
+        can_touch = _value;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!can_touch)
+            return true;
         int action = event.getAction();
         float x = event.getX();
         float y = event.getY();
