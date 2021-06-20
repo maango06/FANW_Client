@@ -285,7 +285,7 @@ public class MainGame extends AppCompatActivity {
                         });
                         AlertDialog dialog = real.show();
                         TextView temp = dialog.findViewById(R.id.real_result_text);
-                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가였습니다!\n진짜예술가들의 승리!";
+                        String temp2_msg = info[1] + " 이 뽑혔습니다.\n" + info[1] + " 은(는) 가짜예술가였습니다!\n진짜예술가들의 승리!";
                         temp.setText(temp2_msg);
                         dialog.show();
                     }
@@ -301,7 +301,7 @@ public class MainGame extends AppCompatActivity {
                         });
                         AlertDialog dialog = fake.show();
                         TextView temp = dialog.findViewById(R.id.fake_result_text);
-                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가 아닙니다!\n가짜예술가의 승리!";
+                        String temp2_msg = info[1] + " 이 뽑혔습니다.\n" + info[1] + " 은(는) 가짜예술가 아닙니다!\n가짜예술가의 승리!";
                         temp.setText(temp2_msg);
                         dialog.show();
                     }
@@ -361,7 +361,7 @@ public class MainGame extends AppCompatActivity {
                     --sec;
                     (MainGame.this).runOnUiThread(new Runnable() {
                         public void run() {
-                            timer_view.setText(Integer.toString(sec));
+                            timer_view.setText(Integer.toString(sec) + " 초");
                         }
                     });
 
