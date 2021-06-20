@@ -32,7 +32,7 @@
 
         <Button
             android:id="@+id/check"
-            android:layout_width="141dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:text="주제확인" />
 
@@ -44,11 +44,11 @@
 
         <TextView
             android:id="@+id/who"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20dp"
-            android:text="~~가 그리는 중"/>
+            android:gravity="center"
+            android:text="~~가 그리는 중"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <ProgressBar
