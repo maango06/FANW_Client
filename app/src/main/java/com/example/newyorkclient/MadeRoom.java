@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,9 @@ public class MadeRoom extends AppCompatActivity {
     User_info[] user_info = new User_info[6];
     TextView codename;
     TextView chat_log;
+
+    ImageView[] image_list = new ImageView[6];
+    TextView[] text_list = new TextView[6];
 
     Button sending_button;
     EditText sending_text;
@@ -42,18 +46,19 @@ public class MadeRoom extends AppCompatActivity {
             user_info[i] = new User_info();
             user_info[i].player_id = "";
         }
-        user_info[0].name = findViewById(R.id.player1);
-        user_info[0].thumb_nail = findViewById(R.id.image1);
-        user_info[1].name = findViewById(R.id.player2);
-        user_info[1].thumb_nail = findViewById(R.id.image2);
-        user_info[2].name = findViewById(R.id.player3);
-        user_info[2].thumb_nail = findViewById(R.id.image3);
-        user_info[3].name = findViewById(R.id.player4);
-        user_info[3].thumb_nail = findViewById(R.id.image4);
-        user_info[4].name = findViewById(R.id.player5);
-        user_info[4].thumb_nail = findViewById(R.id.image5);
-        user_info[5].name = findViewById(R.id.player6);
-        user_info[5].thumb_nail = findViewById(R.id.image6);
+        text_list[0] = findViewById(R.id.player1);
+        image_list[0] = findViewById(R.id.image1);
+        text_list[1] = findViewById(R.id.player2);
+        image_list[1] = findViewById(R.id.image2);
+        text_list[2] = findViewById(R.id.player3);
+        image_list[2] = findViewById(R.id.image3);
+        text_list[3] = findViewById(R.id.player4);
+        image_list[3] = findViewById(R.id.image4);
+        text_list[4] = findViewById(R.id.player5);
+        image_list[4] = findViewById(R.id.image5);
+        text_list[5] = findViewById(R.id.player6);
+        image_list[5] = findViewById(R.id.image6);
+
         codename = findViewById(R.id.Codename);
         start = findViewById(R.id.start);
         sending_button = findViewById(R.id.sending_button);
@@ -95,11 +100,6 @@ public class MadeRoom extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         maderoom_thread.set_stop();
-        try {
-            maderoom_thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -137,17 +137,21 @@ public class MadeRoom extends AppCompatActivity {
                 case "room_info":
                     for(int i = 1; i < info.length; ++i) {
                         String[] temp = info[i].split("::");
-                        user_info[player_num].name.setText(temp[0]);
+                        user_info[player_num].nick_name = temp[0];
+                        text_list[player_num].setText(temp[0]);
                         user_info[player_num].player_id = temp[1];
-                        Glide.with(MadeRoom.this).load(temp[2]).into(user_info[player_num].thumb_nail);
+                        user_info[player_num].thumb_nail = temp[2];
+                        Glide.with(MadeRoom.this).load(temp[2]).into(image_list[player_num]);
                         ++player_num;
                     }
                     break;
                 case "enter_room":
                     String[] temp = info[1].split("::");
-                    user_info[player_num].name.setText(temp[0]);
+                    user_info[player_num].nick_name = temp[0];
+                    text_list[player_num].setText(temp[0]);
                     user_info[player_num].player_id = temp[1];
-                    Glide.with(MadeRoom.this).load(temp[2]).into(user_info[player_num].thumb_nail);
+                    user_info[player_num].thumb_nail = temp[2];
+                    Glide.with(MadeRoom.this).load(temp[2]).into(image_list[player_num]);
                     ++player_num;
                 case "quit_room":
 
@@ -156,31 +160,28 @@ public class MadeRoom extends AppCompatActivity {
                         if(user_info[num].player_id.equals(info[1]))
                             break;
                     }
+                    --player_num;
 
-                    for(;num<6;++num) {
-                        if(num == 5) {
-                            if(!user_info[num].player_id.equals("")) {
-                                user_info[num].name.setText("");
-                                user_info[num].player_id = "";
-                                user_info[num].thumb_nail.setImageResource(R.drawable.kakao_default_profile_image);
-                            }
-                            break;
-                        }
-                        if(user_info[num+1].player_id.equals("")) {
-                            user_info[num].name.setText("");
-                            user_info[num].player_id = "";
-                            user_info[num].thumb_nail.setImageResource(R.drawable.kakao_default_profile_image);
-                            break;
-                        }
-                        else {
-                            user_info[num].name.setText(user_info[num+1].name.getText());
-                            user_info[num].player_id = user_info[num + 1].player_id;
-                            user_info[num].thumb_nail.setImageDrawable(user_info[num+1].thumb_nail.getDrawable());
-                        }
+                    for(;num<player_num;++num) {
+                        user_info[num].thumb_nail = user_info[num+1].thumb_nail;
+                        user_info[num].player_id = user_info[num+1].player_id;
+                        user_info[num].nick_name = user_info[num+1].nick_name;
+                        text_list[num].setText(user_info[num].nick_name);
+                        Glide.with(MadeRoom.this).load(user_info[num].thumb_nail).into(image_list[num]);
                     }
+
+                    user_info[player_num].thumb_nail = "";
+                    user_info[player_num].player_id = "";
+                    user_info[player_num].player_id = "";
+                    text_list[player_num].setText("");
+                    image_list[num].setImageResource(R.drawable.kakao_default_profile_image);
+
                     break;
                 case "game_start":
                     Intent intent3 = new Intent(MadeRoom.this, MainGame.class);
+                    for(int i = 0; i < player_num; ++i)
+                        intent3.putExtra("player" + Integer.toString(i), user_info[i]);
+                    intent3.putExtra("player_num", player_num);
                     startActivity(intent3);
                     break;
             }

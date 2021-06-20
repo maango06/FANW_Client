@@ -33,6 +33,8 @@ public class MainGame extends AppCompatActivity {
     TextView who, timer_view;
     Button check, btn, btn2, btn3;
     AlertDialog theme;
+    User_info[] user_info = new User_info[6];
+    int player_num;
 
     MainGame_thread maingame_thread = null;
     MainGame_handler handler = null;
@@ -44,6 +46,12 @@ public class MainGame extends AppCompatActivity {
         who = findViewById(R.id.who);
         check = findViewById(R.id.check);
         timer_view = findViewById(R.id.timer);
+
+        player_num = getIntent().getIntExtra("player_num", 0);
+        for(int i = 0; i < player_num; ++i) {
+            user_info[i] = new User_info();
+            user_info[i] = (User_info) getIntent().getSerializableExtra("player" + Integer.toString(i));
+        }
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override

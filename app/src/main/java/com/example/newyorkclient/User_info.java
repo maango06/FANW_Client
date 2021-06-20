@@ -1,10 +1,9 @@
 package com.example.newyorkclient;
 
-import android.widget.ImageView;
-import android.widget.TextView;
+import java.io.Serializable;
 
-public class User_info {
-    TextView name;
-    ImageView thumb_nail;
-    String player_id;
+public class User_info implements Serializable {
+    public String nick_name;
+    public String thumb_nail;
+    public String player_id;
 }

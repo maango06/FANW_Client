@@ -101,11 +101,6 @@ public class Lobby extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         lobby_thread.set_stop();
-        try {
-            lobby_thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
