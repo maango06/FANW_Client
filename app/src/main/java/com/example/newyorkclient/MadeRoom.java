@@ -153,6 +153,7 @@ public class MadeRoom extends AppCompatActivity {
                     user_info[player_num].thumb_nail = temp[2];
                     Glide.with(MadeRoom.this).load(temp[2]).into(image_list[player_num]);
                     ++player_num;
+                    break;
                 case "quit_room":
 
                     int num = 0;
@@ -174,7 +175,7 @@ public class MadeRoom extends AppCompatActivity {
                     user_info[player_num].player_id = "";
                     user_info[player_num].player_id = "";
                     text_list[player_num].setText("");
-                    image_list[num].setImageResource(R.drawable.kakao_default_profile_image);
+                    image_list[player_num].setImageResource(R.drawable.kakao_default_profile_image);
 
                     break;
                 case "game_start":
