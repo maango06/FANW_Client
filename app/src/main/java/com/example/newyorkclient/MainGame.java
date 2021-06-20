@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -82,19 +83,29 @@ public class MainGame extends AppCompatActivity {
 //        vote.create();
 //        vote.show();
 
-        //30 초간 터치 가능하게 하는 기능 -->> 돌아가면서 그림 그릴 때 사용
-//        new CountDownTimer(29999, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                String a = String.valueOf(30-millisUntilFinished/1000);
-//                int countdown = Integer.parseInt(a);
-//                timeout.setProgress(countdown);
-//            }
-//            @Override
-//            public void onFinish() {
-//                getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-//            }
-//        }.start();
+        //진짜 예술가 승리
+        android.app.AlertDialog.Builder real = new android.app.AlertDialog.Builder(MainGame.this);
+        LayoutInflater factory = LayoutInflater.from(MainGame.this);
+        final View viewr = factory.inflate(R.layout.real, null);
+        real.setView(viewr);
+        real.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+
+            }
+        });
+        //real.show();
+
+        //가짜 예술가 승리
+        android.app.AlertDialog.Builder fake = new android.app.AlertDialog.Builder(MainGame.this);
+        LayoutInflater factory2 = LayoutInflater.from(MainGame.this);
+        final View viewr2 = factory2.inflate(R.layout.real, null);
+        fake.setView(viewr2);
+        fake.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+
+            }
+        });
+        //fake.show();
 
         //화면 막기
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
