@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class MainGame extends AppCompatActivity {
@@ -69,63 +71,6 @@ public class MainGame extends AppCompatActivity {
         draw_queue = new Lock_queue();
 
         new send_thread("topic").start();
-
-//        //가짜 예술가 투표 하는 기능
-//        final int[] fake = new int[1];
-//        final String[] player = new String[]{"p1","p2","p3","p4","p5","p6"};
-//        AlertDialog.Builder vote = new AlertDialog.Builder(MainGame.this);
-//        ad.setIcon(R.mipmap.fake_artist);
-//        ad.setTitle("가짜 예술가를 선택하세요").setSingleChoiceItems(topics, 0, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                fake[0] = which;
-//            }
-//        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                lier =  player[fake[0]];
-//                //서버로 뽑은 플레이어를 보내는 코드 넣어야 됨
-//
-//
-//
-//                Intent intent = new Intent(MainGame.this, Result.class);
-//                startActivity(intent);
-//            }
-//        });
-
-//        vote.create();
-//        vote.show();
-
-        //진짜 예술가 승리
-        android.app.AlertDialog.Builder real = new android.app.AlertDialog.Builder(MainGame.this);
-        LayoutInflater factory = LayoutInflater.from(MainGame.this);
-        final View viewr = factory.inflate(R.layout.real, null);
-        real.setView(viewr);
-        real.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dlg, int sumthin) {
-
-            }
-        });
-        //real.show();
-
-        //가짜 예술가 승리
-        android.app.AlertDialog.Builder fake = new android.app.AlertDialog.Builder(MainGame.this);
-        LayoutInflater factory2 = LayoutInflater.from(MainGame.this);
-        final View viewr2 = factory2.inflate(R.layout.real, null);
-        fake.setView(viewr2);
-        fake.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dlg, int sumthin) {
-
-            }
-        });
-        //fake.show();
-
-        //화면 막기
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        //화면 풀기
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-
 
         //아래 코드들은 전부 그림 그리기 관련
         view = new MyPaintView(this);
@@ -303,6 +248,61 @@ public class MainGame extends AppCompatActivity {
                     break;
                 case "your_turn":
                     set_touch(true);
+                    break;
+                case "vote":
+                    final int[] select_index = new int[1];
+                    final ArrayList<String> player = new ArrayList<String>();
+                    for(int i = 0; i < player_num; ++i) {
+                        player.add(user_info[i].nick_name);
+                    }
+                    AlertDialog.Builder vote = new AlertDialog.Builder(MainGame.this);
+                    //vote.setIcon(R.mipmap.fake_artist);
+                    vote.setTitle("가짜 예술가를 선택하세요").setSingleChoiceItems(player.toArray(new String[player.size()]), 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            select_index[0] = which;
+                        }
+                    }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new send_thread("vote|"+Integer.toString(select_index[0]));
+                        }
+                    });
+
+                    vote.create();
+                    vote.show();
+                    break;
+                case "game_result":
+                    if(info[1].equals(info[2])) {
+                        AlertDialog.Builder real = new AlertDialog.Builder(MainGame.this);
+                        LayoutInflater factory = LayoutInflater.from(MainGame.this);
+                        final View viewr = factory.inflate(R.layout.real, null);
+                        real.setView(viewr);
+                        TextView temp = findViewById(R.id.real_result_text);
+                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가였습니다!\n진짜예술가들의 승리!";
+                        temp.setText(temp2_msg);
+                        real.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dlg, int sumthin) {
+                                finish();
+                            }
+                        });
+                        real.show();
+                    }
+                    else {
+                        AlertDialog.Builder fake = new AlertDialog.Builder(MainGame.this);
+                        LayoutInflater factory2 = LayoutInflater.from(MainGame.this);
+                        final View viewr2 = factory2.inflate(R.layout.real, null);
+                        fake.setView(viewr2);
+                        TextView temp = findViewById(R.id.fake_result_text);
+                        String temp2_msg = info[1] + "이 뽑혔습니다.\n" + info[1] + "은(는) 가짜예술가 아닙니다!\n가짜예술가의 승리!";
+                        temp.setText(temp2_msg);
+                        fake.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dlg, int sumthin) {
+                                finish();
+                            }
+                        });
+                        fake.show();
+                    }
                     break;
             }
         }
