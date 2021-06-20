@@ -30,9 +30,7 @@ public class MainGame extends AppCompatActivity {
     MyPaintView view;
     int tColor,n=0;
     String main_topic, small_topic;
-    String lier; //최종 범인
     TextView who;
-    ProgressBar timeout;
     Button check;
     AlertDialog theme;
 
@@ -44,7 +42,6 @@ public class MainGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
         who = findViewById(R.id.who);
-        timeout = findViewById(R.id.timeout);
         check = findViewById(R.id.check);
 
         check.setOnClickListener(new View.OnClickListener() {
@@ -203,9 +200,9 @@ public class MainGame extends AppCompatActivity {
     }
 
     private void clear(){
-        int Eraser = Color.WHITE;
-        view.setColor(Eraser);
-        view.setStrokeWidth(100);
+        view.clear();
+        String msg = "clear";
+        new send_thread(msg).start();
     }
 
     public void set_popup() {
@@ -239,6 +236,8 @@ public class MainGame extends AppCompatActivity {
             String line = msg.getData().getString("value");
             String[] info = line.split("\\|");
             switch(info[0]) {
+                case "clear":
+                    view.clear();
                 case "topic":
                     main_topic = info[1];
                     small_topic = info[2];
@@ -266,5 +265,4 @@ public class MainGame extends AppCompatActivity {
             }
         }
     }
-
 }

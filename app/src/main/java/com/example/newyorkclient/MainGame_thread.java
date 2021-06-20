@@ -40,6 +40,7 @@ public class MainGame_thread extends Thread{
                 case "draw_move":
                 case "now_turn":
                 case "your_turn":
+                case "clear":
                     Message msg = handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString("value", line);

@@ -143,6 +143,10 @@ public class MyPaintView extends View {
         }
     }
 
+    public void clear() {
+        mCanvas.drawColor(Color.WHITE);
+    }
+
     private Rect touchMove(float x, float y) {
         Rect rect=processMove(x, y);
         return rect;
