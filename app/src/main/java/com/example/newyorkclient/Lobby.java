@@ -51,6 +51,7 @@ public class Lobby extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String result = et.getText().toString();
+                        nickname_textview.setText(result);
                         new send_thread("nickname|" + result).start();
                         dialog.dismiss();
                     }
