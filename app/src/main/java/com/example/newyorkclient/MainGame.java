@@ -242,7 +242,7 @@ public class MainGame extends AppCompatActivity {
                 case "now_turn":
                     view.clear();
                     String temp_msg = "차례 : " + info[1];
-                    new game_timer(5).start();
+                    new game_timer(39).start();
                     who.setText(temp_msg);
                     set_touch(false);
                     break;
