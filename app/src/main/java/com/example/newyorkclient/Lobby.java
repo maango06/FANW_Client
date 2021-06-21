@@ -138,6 +138,7 @@ public class Lobby extends AppCompatActivity {
                         AlertDialog.Builder ad = new AlertDialog.Builder(Lobby.this);
                         ad.setIcon(R.mipmap.fake_artist);
                         ad.setTitle("에러");
+                        ad.setMessage("번호가 일치하는 방이 없습니다.");
                         ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
